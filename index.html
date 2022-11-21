@@ -3,9 +3,189 @@
 <head>
 <title>MatchMaker</title>
 </head>
+
 <body>
-<h1>MatchMaker</h1>
-<p>This page is a sample page for a “Hello World” Azure Static Website Template. The page contains an HTML validation warning. 
-Can you find and fix that warning?</p>
+
+<h1>Welcome to MatchMaker</h1>
+
+<h2>Instructions</h2>
+<p>Matchmaker is a test to see if you would be a perfect match for me as a friend. </p>
+<p>You will answer a series of 5 questions that will then calculate the compatibility</p>
+<p>of our Friendship. Good Luck!</p>
+<br><br>
+<label>Cats are better than dogs:</label>
+<select id='question1'>
+    <option value='5'>Strongly Agree</option>
+    <option value='4'>Agree</option>
+    <option value='3'>Neither Agree nor Disagree</option>
+    <option value='2'>Disagree</option>
+    <option value='1'>Strongly Disagree</option>
+</select>
+<br><br> 
+
+<label>Basketball is the best sport:</label>
+<select id='question2'>
+    <option value='5'>Strongly Agree</option>
+    <option value='4'>Agree</option>
+    <option value='3'>Neither Agree nor Disagree</option>
+    <option value='2'>Disagree</option>
+    <option value='1'>Strongly Disagree</option>
+</select>
+<br><br>
+
+<label>Attack on Titan isn't a good show:</label>
+<select id='question3'>
+    <option value='5'>Strongly Agree</option>
+    <option value='4'>Agree</option>
+    <option value='3'>Neither Agree nor Disagree</option>
+    <option value='2'>Disagree</option>
+    <option value='1'>Strongly Disagree</option>
+</select>
+<br><br>
+
+<label>Eminem is a good rapper:</label>
+<select id="question4">
+    <option value='5'>Strongly Agree</option>
+    <option value='4'>Agree</option>
+    <option value='3'>Neither Agree nor Disagree</option>
+    <option value='2'>Disagree</option>
+    <option value='1'>Strongly Disagree</option>
+</select>
+<br><br>
+
+<label>Sparkling water is the best drink:</label>
+<select id='question5'>
+    <option value='5'>Strongly Agree</option>
+    <option value='4'>Agree</option>
+    <option value='3'>Neither Agree nor Disagree</option>
+    <option value='2'>Disagree</option>
+    <option value='1'>Strongly Disagree</option>
+</select>
+<br><br><br>
+
+<button onclick="compatibilityCalculation()">Calculate Compatibility</button>
+<p id="calculateCompatibility"></p>
+
+<p id="endingMessage"></p>
+
+
+<script>
+
+console.log('Starting Matchmaker')
+
+// ########################################################################################
+// The Function
+function compatibilityCalculation() {
+
+    console.log('compatibilityCalculation()')
+// ########################################################################################
+// The Constants
+    const CORRECT_RESPONSE = [
+        4,
+        3,
+        1,
+        1,
+        5
+    ]
+
+    const MOST_ACCURATE_SCORE = 30
+
+    const CORRECT_RESPONSE_WEIGHT = [
+        2,
+        1,
+        1,
+        1,
+        1
+    ]
+// ########################################################################################
+// Gets number of response
+    let response1 = document.getElementById('question1').selectedOptions[0].value;
+    let response2 = document.getElementById('question2').selectedOptions[0].value;
+    let response3 = document.getElementById('question3').selectedOptions[0].value;
+    let response4 = document.getElementById('question4').selectedOptions[0].value;
+    let response5 = document.getElementById('question5').selectedOptions[0].value;
+
+// ########################################################################################
+// gets number for answer shows in in console 
+    console.log("Questions 1 Answer:")
+    console.log(document.getElementById('question1').selectedOptions[0].text);
+    console.log(document.getElementById('question1').selectedOptions[0].value);
+    console.log(response1);
+
+    console.log("Questions 2 Answer:")
+    console.log(document.getElementById('question2').selectedOptions[0].text);
+    console.log(document.getElementById('question2').selectedOptions[0].value);
+    console.log(response2);
+
+    console.log("Questions 3 Answer:")
+    console.log(document.getElementById('question3').selectedOptions[0].text);
+    console.log(document.getElementById('question3').selectedOptions[0].value);
+    console.log(response3);
+
+    console.log("Questions 4 Answer:")
+    console.log(document.getElementById('question4').selectedOptions[0].text);
+    console.log(document.getElementById('question4').selectedOptions[0].value);
+    console.log(response4);
+
+    console.log("Questions 5 Answer:")
+    console.log(document.getElementById('question5').selectedOptions[0].text);
+    console.log(document.getElementById('question5').selectedOptions[0].value);
+    console.log(response5);
+
+// ########################################################################################
+// calculate weighted compatibility 
+    let compatibility1 = ((5 * CORRECT_RESPONSE_WEIGHT[0]) - Math.abs(response1 - CORRECT_RESPONSE[0]));
+    let compatibility2 = ((5 * CORRECT_RESPONSE_WEIGHT[1]) - Math.abs(response2 - CORRECT_RESPONSE[1]));
+    let compatibility3 = ((5 *  CORRECT_RESPONSE_WEIGHT[2]) - Math.abs(response3 - CORRECT_RESPONSE[2]));
+    let compatibility4 = ((5 *  CORRECT_RESPONSE_WEIGHT[3]) - Math.abs(response4 - CORRECT_RESPONSE[3]))
+    let compatibility5 = ((5 *  CORRECT_RESPONSE_WEIGHT[4]) - Math.abs(response5 - CORRECT_RESPONSE[4]));
+// ########################################################################################
+// shows compatibility in console
+    console.log('c1='+compatibility1);
+    console.log('c2='+compatibility2);
+    console.log('c3='+compatibility3);
+    console.log('c4='+compatibility4);
+    console.log('c5='+compatibility5);
+// ########################################################################################
+// Find the total score for compat
+    let compatibilityTotal = compatibility1 + compatibility2 + compatibility3 +compatibility4 + compatibility5; 
+
+    compatibilityTotal *= 100 / MOST_ACCURATE_SCORE;
+    compatibilityTotal = Math.round(compatibilityTotal);
+// ########################################################################################   
+    
+    document.getElementById("calculateCompatibility").innerHTML = "Your Compatibility Score is: " + compatibilityTotal + "%"
+
+  if (compatibilityTotal == 100)
+        document.getElementById("endingMessage").innerHTML = 'You are My Perfect Match!!! Can we be best friends?';
+    else if (compatibilityTotal > 90)
+        document.getElementById("endingMessage").innerHTML = 'I guess we can be Good Friends.';
+    else if (compatibilityTotal > 80)
+        document.getElementById("endingMessage").innerHTML = 'We are only slightly friends.'; 
+    else if (compatibilityTotal > 70)
+        document.getElementById("endingMessage").innerHTML = 'I may be able to change your opionions eventually, but I do not really like you as friend';
+    else if (compatibilityTotal > 60)
+        document.getElementById("endingMessage").innerHTML = 'I might say Hi to you in public.'; 
+    else if (compatibilityTotal > 50)
+        document.getElementById("endingMessage").innerHTML = 'We could talk like once maybe';
+    else if (compatibilityTotal > 40)
+        document.getElementById("endingMessage").innerHTML = 'I cannot be Friends with you and I am not sorry about it'; 
+        
+}
+</script>
+
+
+
 </body>
+
+
+
+<style>
+    body{
+        text-align: center; 
+        background-color: navy;
+        color: blueviolet;
+        font-size: 25px;
+    }
+</style>
 </html>
